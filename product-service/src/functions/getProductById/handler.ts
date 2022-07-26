@@ -1,13 +1,25 @@
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
-import { loadProductsList } from '@functions/products';
+import { Client } from 'pg';
+import dbConnection from '@libs/db-connection';
 
 const getProductById = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
-  const products = await loadProductsList();
-  const product = products.find(product => product.id == event.pathParameters.id) || {};
+  console.log(event);
 
-  return formatJSONResponse(product);
+  const client = new Client(dbConnection);
+  await client.connect();
+
+  try {
+    const dbResponse = await client.query(`SELECT * from public.products WHERE id = '${event.pathParameters.id}'`);
+    const product = dbResponse.rows.length > 0 ? dbResponse.rows[0] : {}; 
+
+    return formatJSONResponse(product);
+  } catch(e) {
+    return e;
+  } finally {
+    client.end();
+  }
 };
 
 export const main = middyfy(getProductById);
