@@ -24,8 +24,12 @@ insert into public.products (description, price, title) values
 ('32'' 1366x768 (HD) VA', 700, 'Blaupunkt 32WB965')
 
 
---insert into stocks (product_id, count) values 
---('7567ec4b-b10c-48c5-9345-fc73348a80a1', 2000),
---('7567ec4b-b10c-48c5-9345-fc73c48a80aa', 1000),
---('7567ec4b-b10c-48c5-9345-fc73c48a80a0', 3000),
---('7567ec4b-b10c-48c5-9445-fc73c48a80a2', 5000)
+insert into public.stocks (product_id, count) values 
+('5e232611-81f0-4414-9c6e-a477f233ee14', 20),
+('224b86b4-6d82-4ac2-a2af-6b2824e09c3b', 10),
+('92eb6630-56cd-41b2-b0aa-6d0fb1cf202c', 30),
+('e23a783d-b92d-4971-b4c6-4293d897262f', 50),
+('8058aecd-5bb4-4b18-9c23-f3f5e0442d93', 30),
+('c5311bb7-44b0-4656-b6e8-8d2efcf4ab50', 30),
+('5d52cd6f-e882-4f3a-9ad1-65fd187becf2', 30),
+('75eaffdc-c869-4886-b8af-6fde389c9c06', 30)
