@@ -7,9 +7,8 @@ const createProduct = async (event: APIGatewayEvent): Promise<void> => {
   console.log(event);
 
   const client = new Client(dbConnection);
-  const { title, description, price } = event as any;
-
   await client.connect();
+  const { title, description, price } = event as any;
 
   try {
     await client.query(`INSERT INTO public.products (title, description, price) VALUES ('${title}', '${description}', ${price})`);
