@@ -1,4 +1,4 @@
-import * as AWS from "aws-sdk";
+import * as AWS from 'aws-sdk';
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
@@ -12,7 +12,7 @@ const importProductsFile = async (event: APIGatewayEvent): Promise<APIGatewayPro
     Bucket: process.env.IMPORT_S3_BUCKET,
     Key: `uploaded/${name}`,
     ContentType: 'text/csv',
-    Expires: 365
+    Expires: 3600
   };
 
   const signedUrl = s3.getSignedUrl('putObject', command);

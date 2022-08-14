@@ -2,15 +2,14 @@ import type { AWS } from '@serverless/typescript';
 import importProductsFile from '@functions/importProductsFile';
 import importFileParser from '@functions/importFileParser';
 
-const { IMPORT_S3_BUCKET } = process.env;
-
 const serverlessConfiguration: AWS = {
   service: 'import-service',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-esbuild', 'serverless-dotenv-plugin'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
+    region: 'eu-west-1',
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -18,19 +17,13 @@ const serverlessConfiguration: AWS = {
     iamRoleStatements: [
       {
         'Effect': 'Allow',
-        'Action': 's3:ListBucket',
-        'Resource': [
-            `arn:aws:s3:::${IMPORT_S3_BUCKET}`
-        ]
+        'Action': ['s3:ListBucket'],
+        'Resource': [`arn:aws:s3:::import-products.s3-bucket`] // ${process.env.IMPORT_S3_BUCKET}
       },
       {
         'Effect': 'Allow',
-        'Action': [
-            's3:*'
-        ],
-        'Resource': [
-            `arn:aws:s3:::${IMPORT_S3_BUCKET}/*`
-        ]
+        'Action': ['s3:*'],
+        'Resource': [`arn:aws:s3:::import-products.s3-bucket/*`] // ${process.env.IMPORT_S3_BUCKET}
       }
     ],
     environment: {
