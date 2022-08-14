@@ -1,3 +1,3 @@
 # TV-Shop Serverless AWS Infrastructure
 
-Implemented features: lambdas
+Implemented features: lambdas, db
