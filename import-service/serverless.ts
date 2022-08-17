@@ -18,18 +18,59 @@ const serverlessConfiguration: AWS = {
       {
         'Effect': 'Allow',
         'Action': ['s3:ListBucket'],
-        'Resource': [`arn:aws:s3:::import-products.s3-bucket`] // ${process.env.IMPORT_S3_BUCKET}
+        'Resource': {
+          'Fn::GetAtt': [
+            'S3ImportBucket',
+            'Arn'
+          ]
+        }
       },
       {
         'Effect': 'Allow',
         'Action': ['s3:*'],
-        'Resource': [`arn:aws:s3:::import-products.s3-bucket/*`] // ${process.env.IMPORT_S3_BUCKET}
+        'Resource': {
+          "Fn::Join": [
+            '',
+            [
+              {
+                'Fn::GetAtt': [
+                  'S3ImportBucket',
+                  'Arn'
+                ]
+              },
+              '/*'
+            ]
+          ]
+        }
+      },
+      {
+        'Effect': 'Allow',
+        'Action': ['sqs:*'],
+        'Resource': {
+          'Fn::ImportValue': 'catalogItemsQueueARN'
+        }
       }
     ],
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      IMPORT_S3_BUCKET: {
+        Ref: 'S3ImportBucket'
+      },
+      SQS_URL: {
+        'Fn::ImportValue': 'catalogItemsQueueURL'
+      }
     },
+  },
+  resources: {
+    Resources: {
+      S3ImportBucket: {
+        Type: 'AWS::S3::Bucket',
+        Properties: {
+          BucketName: 'import-product-bucket'
+        }
+      }
+    }
   },
   functions: {
     importProductsFile,
