@@ -3,7 +3,7 @@ import { middyfy } from '@libs/lambda';
 import { Client } from 'pg';
 import dbConnection from '@libs/db-connection';
 
-const createProduct = async (event: APIGatewayEvent): Promise<void> => {
+export const createProduct = async (event: APIGatewayEvent): Promise<void> => {
   console.log(event);
 
   const client = new Client(dbConnection);
