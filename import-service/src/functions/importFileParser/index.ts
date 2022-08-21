@@ -5,7 +5,9 @@ export default {
   events: [
     {
       s3: {
-        bucket: 'import-products.s3-bucket', //process.env.IMPORT_S3_BUCKET
+        bucket: {
+          Ref: 'S3ImportBucket'
+        },
         event: 's3:ObjectCreated:*',
         rules: [
           {
@@ -15,5 +17,8 @@ export default {
         existing: true
       },
     },
+  ],
+  dependsOn: [
+    'S3ImportBucket'
   ],
 };
