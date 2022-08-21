@@ -59,6 +59,9 @@ const serverlessConfiguration: AWS = {
       },
       SQS_URL: {
         'Fn::ImportValue': 'catalogItemsQueueURL'
+      },
+      AUTHORIZER_ARN: {
+        'Fn::ImportValue': 'basicAuthorizerARN'
       }
     },
   },
